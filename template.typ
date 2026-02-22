@@ -13,97 +13,63 @@
   highlight: rgb(235, 244, 255),
 )
 
-
-// Page Setup
-#set page(
-  height: auto,
-  numbering: "1",
-)
-
-#set text(
-  size: 12pt,
-  fill: colors.text,
-)
-
-#set par(
-  justify: true,
-  leading: 0.7em,
-  first-line-indent: 0pt,
-)
-
-
-// Headings
-#set heading(numbering: "1.1")
-
-#show heading.where(level: 1): it => [
-  #block(
-    inset: (bottom: 0.4em),
-    stroke: (bottom: (paint: colors.primary, thickness: 3pt)),
-  )[
-    #set text(size: 22pt, weight: 700)
-    #counter(heading).display() + "  " + it.body
-  ]
-  #v(0.9em)
-]
-
-#show heading.where(level: 2): it => [
-  #set text(size: 16pt, weight: 600, fill: colors.primary)
-  #counter(heading).display() + "  " + it.body
-  #v(0.5em)
-]
-
-#show heading.where(level: 3): it => [
-  #set text(size: 13pt, weight: 500, fill: colors.secondary)
-  #counter(heading).display() + "  " + it.body
-  #v(0.3em)
-]
-
-
 // Title Page
 #let title-page(
   title: "",
   subtitle: none,
   author: "",
   id: "",
-  course: "",
-  professor: "",
-  institution: "",
 ) = {
-  align(center)[
+  align(left)[
+    #block(
+      inset: (x: 1.4em, y: 1em),
+      stroke: (
+        top: (paint: colors.primary.lighten(50%), thickness: 3pt),
+        bottom: (paint: colors.accent.lighten(50%), thickness: 2pt),
+        left: (paint: colors.border, thickness: 1pt),
+        right: (paint: colors.border, thickness: 1pt),
+      ),
+      radius: 6pt,
+      width: 100%,
+    )[
+      #set text(size: 20pt, weight: 900, fill: colors.primary)
+      #title
 
-    #set text(30pt, weight: 800, fill: colors.primary)
-    #title
-
-    #if subtitle != none [
-      #v(0.3cm)
-      #set text(17pt, weight: 400, fill: colors.secondary)
-      #subtitle
+      #if subtitle != none [
+        #v(0.2cm)
+        #set text(size: 14pt, fill: colors.secondary)
+        #subtitle
+      ]
     ]
-
-    #v(0.5cm)
-
-    #set text(12pt)
-    #grid(
-      columns: (1fr, 1fr),
-      gutter: 0.5cm,
-      [*Author:* #author], [*ID:* #id],
-      // [*Course:* #course], [*Professor:* #professor],
-    )
-
-    #v(1cm)
-
-    #set text(10pt, fill: colors.text-light)
-    #institution
   ]
+
+  align(right)[
+    #block(
+      inset: (x: 1.2em, y: 0.9em),
+      stroke: (right: (paint: colors.primary.lighten(80%), thickness: 2.5pt)),
+      fill: colors.surface,
+      radius: 5pt,
+      width: 100%,
+    )[
+      #set par(justify: false)
+
+      #set text(size: 14pt, weight: 700)
+      #author
+      #h(1fr)
+      #set text(size: 10pt, fill: colors.text-light)
+      #id
+    ]
+  ]
+
+  v(3cm)
 }
 
-
 // Question / Answer Blocks
-#let question(body) = block(
+#let que(body) = block(
   inset: 0.8em,
   radius: 4pt,
   fill: colors.highlight,
-  stroke: (paint: colors.primary, thickness: 1pt),
+  stroke: (paint: colors.primary.lighten(50%), thickness: 1pt),
 )[
   #set text(weight: 600, fill: colors.primary)
   📌 Question
@@ -114,11 +80,11 @@
   #body
 ]
 
-#let answer(body) = block(
+#let ans(body) = block(
   inset: 0.8em,
   radius: 4pt,
   fill: colors.surface,
-  stroke: (paint: colors.border, thickness: 1pt),
+  stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
 )[
   #set text(weight: 600, fill: colors.success)
   ✏️ Answer
@@ -140,7 +106,7 @@
     inset: 1em,
     radius: 4pt,
     fill: colors.surface,
-    stroke: (paint: color, thickness: 1pt),
+    stroke: (paint: color.lighten(50%), thickness: 1pt),
   )[
     #set text(weight: 600, fill: color)
     #icon #label
@@ -157,56 +123,68 @@
   fill: colors.code-bg,
   inset: 7pt,
   radius: 4pt,
-  stroke: (paint: colors.border, thickness: 1pt),
 )
-
 
 // Figures & Tables
 #show figure: it => block(
   inset: 5pt,
   radius: 4pt,
-  stroke: (paint: colors.border, thickness: 1pt),
+  stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
   fill: colors.surface,
 )[#it]
 
 #show image: it => box(
   radius: 4pt,
   clip: true,
-  stroke: (paint: colors.border, thickness: 1pt),
+  stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
   inset: 1pt,
   it,
 )
 
 #show table: it => {
   set table(
-    stroke: (paint: colors.border, thickness: 0.5pt),
+    stroke: (paint: colors.border.lighten(50%), thickness: 0.5pt),
     align: center,
   )
   it
 }
 
 
-// Header / Footer
-#set page(
-  header: context {
-    if counter(page).get().first() > 1 {
-      align(right)[
-        #set text(10pt, fill: colors.text-light)
-        datetime.today().display()
-      ]
-    }
-  },
-
-  footer: context {
-    if counter(page).get().first() > 1 {
-      align(center)[
-        #set text(10pt, fill: colors.text-light)
-        counter(page).display() + " / " + counter(page).final()
-      ]
-    }
-  },
-)
-
-
 // Template Wrapper
-#let template(body) = body
+#let template(body) = {
+  // Page Setup
+  set page(height: auto, margin: (x: 20pt, y: 20pt))
+  set text(size: 12pt, fill: colors.text)
+
+  // Apply all show rules
+  show raw.where(block: true): block.with(
+    fill: colors.code-bg,
+    inset: 7pt,
+    radius: 4pt,
+  )
+
+  show figure: it => block(
+    inset: 5pt,
+    radius: 4pt,
+    stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
+    fill: colors.surface,
+  )[#it]
+
+  show image: it => box(
+    radius: 4pt,
+    clip: true,
+    stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
+    inset: 1pt,
+    it,
+  )
+
+  show table: it => {
+    set table(
+      stroke: (paint: colors.border.lighten(50%), thickness: 0.5pt),
+      align: center,
+    )
+    it
+  }
+
+  body
+}
