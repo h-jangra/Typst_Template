@@ -1,4 +1,5 @@
-#import "template.typ": answer, note, question, template, title-page
+#import "@git+https://github.com/h-jangra/Typst_Template/template.typ":
+answer, note, question, template, title-page
 
 #title-page(
   title: "Advanced Machine Learning",
