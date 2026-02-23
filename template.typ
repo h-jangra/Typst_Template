@@ -72,12 +72,7 @@
   stroke: (paint: colors.primary.lighten(50%), thickness: 1pt),
 )[
   #set text(weight: 600, fill: colors.primary)
-  📌 Question
-
-  #v(0.4em)
-
-  #set text(weight: 400, fill: colors.text)
-  #body
+   #body
 ]
 
 #let ans(body) = block(
@@ -86,10 +81,7 @@
   fill: colors.surface,
   stroke: (paint: colors.border.lighten(50%), thickness: 1pt),
 )[
-  #set text(weight: 600, fill: colors.success)
-  ✏️ Answer
-
-  #v(0.4em)
+  #text(weight: 600, fill: colors.success)[󱝿 ]
 
   #set text(weight: 400, fill: colors.text)
   #body

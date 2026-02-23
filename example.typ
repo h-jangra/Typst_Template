@@ -1,4 +1,5 @@
 #import ".template.typ": ans, note, que, template, title-page
+#set text(font: "JetBrains Mono")
 
 #show: template
 
