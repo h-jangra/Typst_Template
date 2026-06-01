@@ -1,5 +1,6 @@
-#import ".template.typ": ans, note, que, template, title-page
+#import ".temp.typ": ans, kvtable, note, que, template, title-page, watermark
 #set text(font: "JetBrains Mono")
+#set page(margin: 30pt, height: auto)
 
 #show: template
 
