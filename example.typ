@@ -19,7 +19,17 @@
 #answer[
   Backpropagation computes gradients using the chain rule.
 
+  #kvtable(
+    "Framework", "PyTorch",
+    "Optimizer", "Adam",
+    "Learning Rate", "0.001",
+    "Epochs", "100",
+  )
+
   #note(type: "tip", label: "Hello")[
     It enables efficient weight updates.
   ]
+
+  #watermark(image("./assets/exp6.png", width: 100%))
+
 ]
