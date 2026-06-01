@@ -87,6 +87,22 @@
   #body
 ]
 
+#let watermark(
+  img,
+  mark: "202217B3231",
+) = {
+  box[
+    #img
+
+    #place(bottom + right, dx: -20pt, dy: -20pt)[
+      #text(
+        size: 16pt,
+        weight: "bold",
+        fill: yellow,
+      )[#mark]
+    ]
+  ]
+}
 
 // Notes
 #let note(body, type: "info", label: none) = {
