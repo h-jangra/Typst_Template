@@ -87,6 +87,51 @@
   #body
 ]
 
+#let kvtable(
+  col: 1,
+  key-color: rgb("#EAF2FF"),
+  value-color: rgb("#FAFBFC"),
+  border-color: rgb("#D8DEE9"),
+  ..items,
+) = {
+  let cols = ()
+
+  for _ in range(col) {
+    cols += (28%, 1fr)
+  }
+
+  let cells = ()
+
+  for pair in items.pos().chunks(2) {
+    cells += (
+      table.cell(
+        fill: key-color,
+        inset: 8pt,
+      )[
+        #text(weight: 600, fill: colors.primary)[#pair.at(0)]
+      ],
+      table.cell(
+        fill: value-color,
+        inset: 8pt,
+      )[
+        #pair.at(1)
+      ],
+    )
+  }
+
+  block(
+    radius: 6pt,
+    clip: true,
+    stroke: (paint: border-color, thickness: 0.7pt),
+  )[
+    #table(
+      columns: cols,
+      stroke: (paint: border-color, thickness: 0.5pt),
+      ..cells,
+    )
+  ]
+}
+
 #let watermark(
   img,
   mark: "202217B3231",
